@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/listener" version="1.0.0" viewmodes="maximized">
     <access origin="*" subdomains="true"></access>
-    <tizen:application id="SYBYMIJmbD.listener" package="SYBYMIJmbD" required_version="2.3"/>
+    <tizen:application id="NoE1AyiHy6.listener" package="NoE1AyiHy6" required_version="2.3"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.normal"/>
     <feature name="http://tizen.org/feature/media.audio_recording"/>

@@ -112,6 +112,7 @@ var HistoryControl = (function() {
 
     $('#1btnPopup-cancel').bind('click', function() {
         tau.closePopup();
+        popupOpened = false;
     });
 
     page.addEventListener( "pageshow", function() {
