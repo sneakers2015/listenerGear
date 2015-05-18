@@ -1,0 +1,5 @@
+.git
+.rds_delta
+.sdk_delta.info
+*.wgt
+.sign/*
