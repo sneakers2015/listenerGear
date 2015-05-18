@@ -230,3 +230,36 @@
 	background-image: url(../res/images/trash_clear_full.png);
 }
 
+.intro-bg
+{
+	position:fixed;
+	box-sizing:border-box;
+	background-image: url(../res/images/intro_circle.png);
+	width:360px;
+	height:360px;
+	border: 0;
+	left:0;
+	top:0;
+	background-size:contain;
+}
+
+.bg-outline
+{
+	position:fixed;
+	left:0;
+	top:0;
+}
+
+.fade-out {
+    -webkit-animation: fade-out 1.0s ease-in;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: 1;
+}
+
+@-webkit-keyframes fade-out {
+0% { opacity: 1; -webkit-transform: scale(1);}
+25% {opacity: 1; -webkit-transform: scale(1.05);}
+100% {-webkit-transform: scale(.1); opacity: 0;}
+}
+
+

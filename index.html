@@ -22,19 +22,21 @@
 <body>   
 
     <!-- intro page -->
-    <div class="ui-page" id="intro">
-        <header class="ui-header">
-            <h2 class="ui-title">intro title</h2>
-        </header>
+    <div class="ui-page ui-page-active" id="intro">
         <div class="ui-content content-padding">
-            <ul class="ui-listview">
-                <p>로고, 이미지, 팀소개</p>
-            </ul>
+            <div class="intro-bg">  
+            <svg class='bg-outline' height="360" width="360">
+  			<circle cx="180" cy="180" r="178" stroke="blue" stroke-width="1" fill="transparent" />
+  			<circle cx="180" cy="180" r="175" stroke="white" stroke-width="5" fill="transparent" />
+  			<circle cx="180" cy="180" r="172" stroke="blue" stroke-width="1" fill="transparent" />
+			</svg>          
+            </div>
+            
         </div>
     </div>
 
     <!-- history page -->
-    <div class="ui-page ui-page-active" id="page-sound-history">
+    <div class="ui-page" id="page-sound-history">
         <header class="ui-header">
             <h2 class="ui-title">History</h2>
         </header>
@@ -61,6 +63,7 @@
     <!-- load module -->
 
     <script src="js/app.js"></script>
+    <script src="js/intro-control.js"></script>
     <script src="js/history-control.js"></script>
     <script src="js/ui-utils.js"></script>
 </body>
