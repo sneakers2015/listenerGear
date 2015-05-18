@@ -1,17 +1,14 @@
 var Cast = (function() {
     var cast = new Broadcast(function(msg) {
         console.log('receive msg: ' + msg);
-        if (strStartsWith(msg, '@')) {
-        	
-        } else {
-        	var messageObj = JSON.parse(msg);
+        if (strStartsWith(msg, '#')) {
+            var messageObj = JSON.parse(msg.substr(1));
             if (messageObj) {
-            	HistoryControl.receiveMessageHandler(messageObj);
+                HistoryControl.receiveMessageHandler(messageObj);
             } else {
                 console.log('not match');
-            }	
-        }
-        
+            }
+        } 
     });
 
     function strStartsWith(str, prefix) {

@@ -169,8 +169,6 @@ function loadApp() {
     console.log('before load listenerApp: ' + listenerApp)
     if (localStorage.appdata) {
         _.extend(listenerApp, JSON.parse(localStorage.appdata));
-        // update sound list
-//        SoundListControl.updateSoundList();
     }
     console.log('after load listenerApp: ' + listenerApp)
 }
@@ -182,12 +180,9 @@ function loadApp() {
  */
 function saveApp() {
     console.log('save');
-//    SoundListControl.updateSoundList();
     var appdata = _.pick(listenerApp, 'sounds');
     console.log('appdata: ' + appdata);
     localStorage.setItem('appdata', JSON.stringify(appdata));
-    // FIXME:: for wearable
-    //startMatching();
 }
 
 /**
@@ -197,41 +192,12 @@ function initApp() {
     console.log('init');
     listenerApp = new ListenerApp();
     loadApp();
-    // FIXME:: for wearable
-    //init_Matcher();
 }
-//
+
 //window.onload = function () {
 //    console.log('window onload');
 //    initApp();
 //};
-
-function startMatching() {
-    var onSounds = _.filter(listenerApp.sounds, function (sound) { return sound.enabled; });
-    var soundArray = _.toArray(onSounds);
-    var samplePackages = _.pluck(soundArray, 'samplePackage');
-    console.log('samplePackages: ' + samplePackages);
-    console.log("startMatching(packages, sampleMatched); length: " + samplePackages.length);
-    matcher.startMatching(samplePackages, function (sampleIndex) {
-        var sound = soundArray[sampleIndex];
-        console.log("sample matched index: " + sampleIndex + ", sound: " + sound.id +' , '+ sound.title);
-        listenerApp.emit('soundMatched', sound.id);
-    });
-}
-
-function stopMatching() {
-    console.log("stopMatching();");
-    matcher.stopMatching();
-}
-
-/**
- * Initialize for Matcher
- */
-var matcher;
-function init_Matcher() {
-    matcher = new Matcher();
-    startMatching();
-}
 
 /**
  * Notification wrapper
@@ -244,7 +210,7 @@ function init_Matcher() {
  * }
  */
 function notification(noti) {
-    console.log('notification: ' + noti.id + ' : ' + noti.title + ' : ' + noti.dialNumber + ' : ' + noti.message);
+    console.log('notification');
     try {
         // TODO::
         // noti from history, to fix from listner page
@@ -299,43 +265,8 @@ function vibrate(flag) {
     }
 }
 
-/**
- * Send SMS
- *
- * @see http://tools.ietf.org/html/rfc5724
- */
-function sendSMS(number, msg) {
-    console.log('send sms: ' + number + ',' + msg);
-    // Tizen wearable is not support sms protocol.
-    // var sms = 'smsto:+' + number + '?body=' + msg;
-    // window.location.href = sms;
-
-    var location = getLocation();
-    var data = {
-            time: (new Date()).toLocaleTimeString(),
-            number: number,
-            msg: msg,
-            location: location
-    }
-
-    // send msg notification
-    Cast.cast.send(JSON.stringify(data));
-}
-
-/**
- * getLocation
- */
-function getLocation() {
-    if (navigator.geolocation) {
-        console.log('geolocation')
-        navigator.geolocation.getCurrentPosition(function showPosition(position) {
-            console.log("Latitude: " + position.coords.latitude + " Longitude: " + position.coords.longitude);
-            return position;
-        });
-    } else {
-        console.log('Geolocation is not supported by this browser.');
-    }
-    return null;
+function sendSocket(data) {
+    Cast.cast.send("@"+JSON.stringify(data));
 }
 
 /**
