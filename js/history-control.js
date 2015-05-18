@@ -8,6 +8,9 @@ var HistoryControl = (function() {
     var btn_ok = page.querySelector('.send-message-cancel');
     var btn_cancel = page.querySelector('.send-message-ok');
     var popupElem = page.querySelector('#notiPopup');
+    var icon_trash = page.querySelector('.trash-btn');
+    
+    var timerInterval = null;
 //    var btn_popup_icon = page.querySelector('.notipopup-center-btn');
 
     var currentNoti = null;
@@ -33,59 +36,53 @@ var HistoryControl = (function() {
 //        showFlashPanel(title);
     };
 
-    function _addHistoryItem (history) {
-        var time = history.timestamp;
-        var sound = listenerApp.getSoundByID(history.soundID);
-        if (sound) {
-            var title = sound.id;
-        }
+    function _addHistoryItem (title, time, id) {
+    	 $('.history-container').prepend("<div class='history-item'><span class='history-item-title'>" + title + "</span><span id=ID" + id + " class='history-item-time'>" + time + "</span><div class='history-item-icon'>icon</div></div>"
+         );
     };
+    
+    function updateHistory () {
+    	var historyList = listenerApp.history;
+    	var history;
+    	var elem;
+    	var currentDate = new Date;
+    	var diffMs, diffMin;
+    	for (var i = 0; i < historyList.length; i++) {
+    		history = historyList[i];
+    		diffMs = currentDate.getTime() - history.time;
+            diffMin =  Math.round(((diffMs % 86400000) % 3600000) / 60000);
+    		elem = page.querySelector('#ID'+history.time);
+    		if (elem) {
+    			elem.innerText = diffMin + '분전';
+    		} else {
+    			_addHistoryItem(history.title, diffMin + '분전', history.time);
+    		}
+    	}
+    	
+    	if (historyList.length > 0) {
+    		$(icon_trash).addClass('trash-full');
+    	} else {
+    		$(icon_trash).removeClass('trash-full');
+    	}
+    }
 
     function showFlashPanel (text) {
         flashPanel.innerText = text;
         blinkBlue(flashPanel);
     };
 
-    function historyMatchHandler( event, soundID ) {
-        console.log( 'history matchHandler', soundID );
-
-        var sound = getSoundByID( soundID );
-        if (!sound || !sound.notiEnabled) {
-            return;
-        }
-
+    function receiveMessageHandler( messageObj ) {
         var currentDate = new Date;
-        var history = getHistoryByID( soundID );
-        if ( !history ) {
-            // new history
-            history = addNewHistory(soundID, currentDate);
-        } else {
-            // exist history
-            var diffMs = currentDate - history.timestamp;
-            var diffMin =  Math.round(((diffMs % 86400000) % 3600000) / 60000);
-            if ( diffMin < 1) {
-                // ignore match
-                return;
-            } else {
-                // update time
-                history.timestamp = currentDate;
-            }
-        }
-
-        var noti = {
-                id : sound.id,
-                title : sound.title,
-                dialNumber : sound.number,
-                message: sound.message
-        }
-        notification(noti);
-        
-        //_addHistoryItem(history);
-
-        openNotiPopup(noti);
-        // FIXME:
-        //blink($('#content1')[0]);
-
+//        notification(noti);        
+        var history = {
+    			title : messageObj.Title,
+    			time : currentDate.getTime(),
+    			dialNumber :messageObj.Phone,
+    			message : messageObj.Msg
+    	};
+    	listenerApp.history.push(history);
+    	updateHistory();
+        openNotiPopup(history);
         // TODO:: link to send SMS in Alert Dialog
     }
 
@@ -97,11 +94,13 @@ var HistoryControl = (function() {
 
     function clearHistory () {
         $('.history-container').empty();
+        listenerApp.history = [];
+        updateHistory();
     };
 
     var _handleClickCallIcon = function (event) {
         if (currentNoti) {
-        	sendSMS(currentNoti.number, currentNoti.msg);
+        	sendSMS(currentNoti.dialNumber, currentNoti.msg);
         	currentNoti = null;
         }
         tau.closePopup();
@@ -109,20 +108,35 @@ var HistoryControl = (function() {
         //send mms
     };
     
+    var _handleClickTrash = function () {
+    	clearHistory();
+    };
+    
+    var _handleTimerInterval = function () {
+    	updateHistory();
+    };
+   
     popupElem.addEventListener('popupcreate', function(){
-    	document.getElementById('notipopup-center-btn').addEventListener ('click', _handleClickCallIcon);
+    	document.getElementById('notipopup-center-btn').addEventListener ('click', _handleClickCallIcon);    	
     });
 
     page.addEventListener( "pageshow", function() {
         console.log('pagebeforeshow');        
-        listenerApp.on('soundMatched', historyMatchHandler);
+        listenerApp.on('receiveSoundMessage', receiveMessageHandler);
+        document.querySelector('.trash-btn').addEventListener('click', _handleClickTrash);
+        timerInterval = setInterval(_handleTimerInterval, 30000);
         
     });
 
     page.addEventListener( "pagebeforehide", function() {
         console.log('pagebeforehide');
 //        btn_popup_icon.removeEventListener ('click', _handleClickCallIcon);
-        listenerApp.off('soundMatched', historyMatchHandler);
+        listenerApp.off('receiveSoundMessage', receiveMessageHandler);
+        if (timerInterval) {
+        	clearInterval(timerInterval);
+        	timerInterval = null;
+        }
+        document.querySelector('.trash-btn').removeEventListener('click', _handleClickTrash);
        
     });
 
@@ -136,16 +150,7 @@ var HistoryControl = (function() {
         }
     };
 
-    document.addEventListener('click', function(ev) {
-//        console.log('click', ev);
-//        _createSamples();
-//        openNotiPopup();
-    });
-
-    headerBtn.addEventListener ('dblclick', function() {
-        clearHistory();
-    });
-
     return {
+    	receiveMessageHandler : receiveMessageHandler
     }
 }());

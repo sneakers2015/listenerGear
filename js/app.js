@@ -170,7 +170,7 @@ function loadApp() {
     if (localStorage.appdata) {
         _.extend(listenerApp, JSON.parse(localStorage.appdata));
         // update sound list
-        SoundListControl.updateSoundList();
+//        SoundListControl.updateSoundList();
     }
     console.log('after load listenerApp: ' + listenerApp)
 }
@@ -182,7 +182,7 @@ function loadApp() {
  */
 function saveApp() {
     console.log('save');
-    SoundListControl.updateSoundList();
+//    SoundListControl.updateSoundList();
     var appdata = _.pick(listenerApp, 'sounds');
     console.log('appdata: ' + appdata);
     localStorage.setItem('appdata', JSON.stringify(appdata));
@@ -200,11 +200,11 @@ function initApp() {
     // FIXME:: for wearable
     //init_Matcher();
 }
-
-window.onload = function () {
-    console.log('window onload');
-    initApp();
-};
+//
+//window.onload = function () {
+//    console.log('window onload');
+//    initApp();
+//};
 
 function startMatching() {
     var onSounds = _.filter(listenerApp.sounds, function (sound) { return sound.enabled; });
@@ -382,3 +382,5 @@ document.addEventListener("rotarydetent", function (e) {
         window.history.back();
     }
 });
+
+initApp();

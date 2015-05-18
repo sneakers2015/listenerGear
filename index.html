@@ -21,46 +21,6 @@
 </head>
 <body>   
 
-   <!-- sound list -->
-    <div class="ui-page ui-page-active" id="soundlist-page">
-        <header class="ui-header">  
-            <button id="addSoundBtn" class="ui-btn">Add</button>
-        </header>
-        <div class="ui-content">
-            <ul class="ui-listview ui-swipelist-list" id="sound-listview">
-                <!-- sound items
-                <li class="li-has-multiline li-has-checkbox">
-                    <label>
-                        Baby Crying
-                        <span class="ui-li-sub-text li-text-sub">112</span>
-                        <input type="checkbox"/>
-                    </label>
-                </li>
-                -->
-            </ul>
-            <div class="ui-swipelist">
-                <div class="ui-swipelist-left">
-                    <div class="ui-swipelist-text">Modify...</div>
-                </div>
-                <div class="ui-swipelist-right">
-                    <div class="ui-swipelist-text">Delete...</div>
-                </div>
-            </div>
-            <div id="sound-delete-popup" class="ui-popup">
-                <div class="ui-popup-content">
-                  Delete<br>
-                  the sound?
-                </div>
-                <div class="ui-popup-footer ui-grid-col-2">
-                    <div class="ui-popup-footer ui-side-button ui-grid-col-2">
-                       <a id="sound-delete-popup-cancel" href="#" class="ui-btn btn-icon-cancel">Cancel</a>
-                      <a id="sound-delete-popup-ok" href="#" class="ui-btn btn-icon-check">OK</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- intro page -->
     <div class="ui-page" id="intro">
         <header class="ui-header">
@@ -72,119 +32,30 @@
             </ul>
         </div>
     </div>
-
-    <div class="ui-page" id="recording-sound-page">
-        <header style="display:none" class="ui-header">
-            <h2 class="ui-title">녹음</h2>
-        </header>
-        <div id="recording-sound-page-content" class="ui-content content-padding ">
-            <div id="recording-page-equalizer-bg" class="recording-page-equalizer-bg"></div>
-            <div id="recording-page-play-btn" class="recording-btn-normal"></div>
-        </div>
-    </div>
-
-    <!-- new sound page -->
-    <div class="ui-page" id="new">
-        <header class="ui-header">
-            <h2 class="ui-title">소리등록</h2>
-        </header>
-        <div class="ui-content content-padding">
-            <ul class="ui-listview">
-                <p>녹음시작/중지, 소리이름입력, 전송번호선택/입력, 전송메시지 입력</p>
-            </ul>
-        </div>
-    </div>
-
-    <!-- new sound info page -->
-    <div class="ui-page" id="page-sound-info">
-        <header class="ui-header">
-            <h2 class="ui-title">Modify</h2>
-        </header>
-        <div class="ui-content content-padding content-padding-small">
-            <div class="sound-info-container">
-                <div class="sound-info-item">
-                    <div class="sound-info-item-title icon-nametag">
-                    </div>
-                    <input id="page-sound-info-nametag-input" class="sound-info-item-input">
-                    </input>
-                </div>
-                <div class="sound-info-item">
-                    <div class="sound-info-item-title icon-call">
-                    </div>
-                    <input id="page-sound-info-call-input" class="sound-info-item-input">
-                    </input>
-                </div>
-                <div class="sound-info-item">
-                    <div id="page-sound-info-message-input" class="sound-info-item-title icon-message">
-                    </div>
-                    <input class="sound-info-item-input">
-                    </input>
-                </div>
-            </div>
-        </div>
-        <footer class="ui-footer ui-bottom-button ui-fixed">
-            <button id="page-sound-info-btn-ok" class="ui-btn ui-btn-icon-only btn-icon-check">Button</button>
-        </footer>
-    </div>
-        
-    <!-- edit sound page -->
-    <div class="ui-page" id="edit">
-        <header class="ui-header">
-            <h2 class="ui-title">소리수정</h2>
-        </header>
-        <div class="ui-content content-padding">
-            <ul class="ui-listview">
-                <p>이름수정, 전송번호수정,전송메시지수정</p>
-            </ul>
-        </div>
-    </div>
-
+    
     <!-- history page -->
-    <div class="ui-page" id="page-sound-history">
+    <div class="ui-page ui-page-active" id="page-sound-history">
         <header class="ui-header">
             <h2 class="ui-title">History</h2>
         </header>
         <div class="ui-content content-padding">
             <div class="history-container">
 			</div>				
+			<div class='trash-btn'>
+				</div>
         </div>
         <div id="notiPopup" class="ui-popup">
 			<div class="ui-popup-content">
 				<button id='notipopup-center-btn' class='notipopup-center-btn'>
 				</button>
 				<div class='flash-panel'>
-				</div>	
+				</div>					
 			</div>
 			<div class="ui-popup-footer ui-bottom-button">
-				<a id="1btnPopup-cancel" href="#" class="ui-btn ui-btn-icon-only btn-icon-check" data-rel="back">Check</a>
+				<a id="1btnPopup-cancel" class="ui-btn ui-btn-icon-only btn-icon-check">Check</a>
 			</div>
 		</div>
     </div>
-
-    <!-- alarm page -->
-    <div class="ui-page" id="alarm">
-        <header class="ui-header">
-            <h2 class="ui-title">백그라운드 알림</h2>
-        </header>
-        <div class="ui-content content-padding">
-            <ul class="ui-listview">
-                <p>알림내용(이름), 닫기버튼, 긴급상황버튼(전송번호)</p>
-            </ul>
-        </div>
-    </div>
-
-    <!-- send alarm page -->
-    <div class="ui-page" id="send">
-        <header class="ui-header">
-            <h2 class="ui-title">전송확인</h2>
-        </header>
-        <div class="ui-content content-padding">
-            <ul class="ui-listview">
-                <p>전송취소버튼, 전송버튼(전송번호,메시지)</p>
-            </ul>
-        </div>
-    </div>
-
 
     <!-- load tau lib -->
     <script type="text/javascript" src="lib/tau/wearable/js/tau.min.js"></script>
@@ -194,9 +65,6 @@
     <!-- load module -->
 
     <script src="js/app.js"></script>
-    <script src="js/soundlist-controls.js"></script>
-    <script src="js/recording-control.js"></script>
-    <script src="js/soundinfo-control.js"></script>
     <script src="js/history-control.js"></script>
     <script src="js/ui-utils.js"></script>
     <script src="js/matcher/soundkeymatching.js"></script>
