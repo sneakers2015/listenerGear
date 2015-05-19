@@ -239,7 +239,7 @@
 {
 	position:fixed;
 	box-sizing:border-box;
-	background-image: url(../res/images/intro_circle.png);
+	background-image: url(../res/images/intro.png);
 	width:360px;
 	height:360px;
 	border: 0;
@@ -267,4 +267,13 @@
 100% {-webkit-transform: scale(.1); opacity: 0;}
 }
 
+.intro-title {
+	position: fixed;
+ 	 background-color: blue;
+  	opacity: 0.4;
+  	border-radius: 8px;
+  	top: 50px;
+  	left: 70px;
+  	width: 220px;
+}
 
