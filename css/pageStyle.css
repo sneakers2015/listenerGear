@@ -230,6 +230,11 @@
 	background-image: url(../res/images/trash_clear_full.png);
 }
 
+.trash-btn:active
+{
+	opacity:0.5;
+}
+
 .intro-bg
 {
 	position:fixed;
