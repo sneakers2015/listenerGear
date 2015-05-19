@@ -8,6 +8,7 @@ var HistoryControl = (function() {
     var btn_ok = page.querySelector('.send-message-cancel');
     var btn_cancel = page.querySelector('.send-message-ok');
     var popupElem = page.querySelector('#notiPopup');
+    var toastPopupElem = page.querySelector('#popupToast');
     var icon_trash = page.querySelector('.trash-btn');
 
     var timerInterval = null;
@@ -95,8 +96,17 @@ var HistoryControl = (function() {
             currentNoti = null;
         }
         tau.closePopup();
-        popupOpened = false;
+        tau.openPopup(toastPopupElem);
+        setTimeout(function(){
+        	if (popupOpened === true) {
+        		tau.closePopup();
+        	}
+        }, 2000);
     };
+    
+    toastPopupElem.addEventListener ('popuphide', function () {
+    	popupOpened = false;
+    });
 
     var _handleClickTrash = function () {
         clearHistory();
